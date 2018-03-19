@@ -15,7 +15,7 @@ public class Dom4jTest {
         readXmlByDom4j();
     }
 
-    private static void readXmlByDom4j() {
+    public static void readXmlByDom4j() {
         try {
             // 加载文件
             SAXReader reader = new SAXReader();

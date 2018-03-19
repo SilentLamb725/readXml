@@ -16,7 +16,7 @@ public class JdomTest {
         readXmlByJdom();
     }
 
-    private static void readXmlByJdom() {
+    public static void readXmlByJdom() {
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
             InputStream in = new FileInputStream("book.xml");

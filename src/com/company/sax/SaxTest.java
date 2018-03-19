@@ -8,7 +8,7 @@ public class SaxTest {
         readXmlBySax();
     }
 
-    private static void readXmlBySax() {
+    public static void readXmlBySax() {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();

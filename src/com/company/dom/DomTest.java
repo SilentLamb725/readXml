@@ -14,7 +14,7 @@ public class DomTest {
     /**
      * 不知道book的属性
      */
-    private static void readUnknownXml() {
+    public static void readUnknownXml() {
         try {
             // 加载xml文件
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
