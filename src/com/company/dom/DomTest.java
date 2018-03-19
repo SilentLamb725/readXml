@@ -4,11 +4,29 @@ import org.w3c.dom.*;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 
 public class DomTest {
 
+    public static DocumentBuilder getDocumentBuilder() {
+        DocumentBuilder db = null;
+        try {
+            // 加载xml文件
+            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+            db = dbf.newDocumentBuilder();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return db;
+    }
+
     public static void main(String[] args) {
-        readUnknownXml();
+        createXMLByDom();
     }
 
     /**
@@ -16,10 +34,7 @@ public class DomTest {
      */
     public static void readUnknownXml() {
         try {
-            // 加载xml文件
-            DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-            DocumentBuilder db = dbf.newDocumentBuilder();
-            Document document = db.parse("book.xml");
+            Document document = getDocumentBuilder().parse("book.xml");
 
             // 解析xml文件
             NodeList nodeList = document.getElementsByTagName("book");
@@ -70,6 +85,35 @@ public class DomTest {
                 System.out.println("属性名为：id");
                 System.out.println("属性值为: " + attrValue);
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 生成xml
+     */
+    public static void createXMLByDom() {
+        DocumentBuilder db = getDocumentBuilder();
+        Document document = db.newDocument();
+        document.setXmlStandalone(true);
+        Element element = document.createElement("bookstore");
+        // 向bookstore根节点添加子节点book
+        Element book = document.createElement("book");
+        Element name = document.createElement("name");
+        name.setTextContent("小王子");
+        book.appendChild(name);
+        book.setAttribute("id", "1");
+        element.appendChild(book);
+        document.appendChild(element);
+
+        // 将树结构转换为xml文件
+        TransformerFactory tf = TransformerFactory.newInstance();
+        try {
+            Transformer transformer = tf.newTransformer();
+            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+            transformer.transform(new DOMSource(document), new StreamResult(new File("domBook.xml")));
+            System.out.println("生成成功");
         } catch (Exception e) {
             e.printStackTrace();
         }

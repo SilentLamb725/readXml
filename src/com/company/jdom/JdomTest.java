@@ -4,19 +4,19 @@ import org.jdom2.Attribute;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.List;
 
 public class JdomTest {
 
     public static void main(String[] args) {
-        readXmlByJdom();
+        createXmlByJDom();
     }
 
-    public static void readXmlByJdom() {
+    public static void readXmlByJDom() {
         try {
             SAXBuilder saxBuilder = new SAXBuilder();
             InputStream in = new FileInputStream("book.xml");
@@ -53,6 +53,26 @@ public class JdomTest {
                 System.out.println("===========结束解析第" + (list.indexOf(element) + 1) + "本书");
             }
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void createXmlByJDom() {
+        Element rss = new Element("rss");
+        rss.setAttribute("version", "2.0");
+        Document document = new Document(rss);
+        Element channel = new Element("channel");
+        rss.addContent(channel);
+        Element title = new Element("title");
+        title.setText("这是标题");
+        channel.addContent(title);
+
+        Format format = Format.getPrettyFormat();
+        // 将document对象转换成xml文件
+        XMLOutputter outputter = new XMLOutputter(format);
+        try {
+            outputter.output(document, new FileOutputStream(new File("jDomRss.xml")));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

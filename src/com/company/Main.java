@@ -19,7 +19,7 @@ public class Main {
         System.out.println("----------------------------Dom4j解析xml耗时：" + time);
 
         cur = System.currentTimeMillis();
-        JdomTest.readXmlByJdom();
+        JdomTest.readXmlByJDom();
         time = System.currentTimeMillis() - cur;
         System.out.println("----------------------------JDom解析xml耗时：" + time);
 
